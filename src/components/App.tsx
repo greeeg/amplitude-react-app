@@ -5,7 +5,7 @@ import { Button } from './Button';
 export const App = () => {
   return (
     <AnalyticsProvider
-      amplitudeApiKey="f63bbc4ffe3aab71973fa108e7b307d0"
+      amplitudeApiKey="change-me"
       user={{
         id: '1',
         attributes: {
