@@ -2866,6 +2866,11 @@ braces@^3.0.2, braces@~3.0.2:
   dependencies:
     fill-range "^7.0.1"
 
+browser-interaction-time@3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/browser-interaction-time/-/browser-interaction-time-3.0.0.tgz#51847a2e9f83f4208a69d61bff4d93188d8d4472"
+  integrity sha512-v7VLDyhaz11YDxdofZ3EclWLjNF7Lgi0oBfJP8sb4yjlOO+R2xkQ9ul8m3yYxBRKEkOwrOEHTHgPFa0FT0TIWA==
+
 browser-process-hrtime@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/browser-process-hrtime/-/browser-process-hrtime-1.0.0.tgz#3c9b4b7d782c8121e56f10106d84c0d0ffc94626"

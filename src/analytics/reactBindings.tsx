@@ -6,6 +6,7 @@ import {
   useEffect,
   useMemo
 } from 'react';
+import BrowserInteractionTime from 'browser-interaction-time';
 import { createAmplitudeProvider } from './providers/amplitude';
 import { Attributes } from './types';
 
@@ -53,6 +54,9 @@ export const AnalyticsProvider: FC<AnalyticsProviderProps> = ({
   );
 };
 
+/**
+ * Returns a function to push an analytic event
+ */
 export const useAnalyticsPushEvent = () => {
   const context = useContext(analyticsContext);
   return context.pushEvent;
@@ -64,6 +68,9 @@ interface AnalyticsViewProps {
   children: ReactElement;
 }
 
+/**
+ * Wrap a screen or section to track its usage
+ */
 export const AnalyticsView: FC<AnalyticsViewProps> = ({
   name,
   attributes,
@@ -76,5 +83,37 @@ export const AnalyticsView: FC<AnalyticsViewProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useInteractionTime((milliseconds) => {
+    context.pushEvent('View - End', {
+      ...attributes,
+      name,
+      activeTimeInSeconds: Math.floor(milliseconds / 1000)
+    });
+  });
+
   return children;
+};
+
+/**
+ * Track active time spent while this hook
+ * is rendered in a React component
+ *
+ * i.e Active window with regular user interactions
+ * @param callback Called on cleanup with active time spent in milliseconds
+ */
+export const useInteractionTime = (
+  callback: (millisecondsElapsed: number) => void
+) => {
+  useEffect(() => {
+    const browserInteractionTime = new BrowserInteractionTime({
+      idleTimeoutMs: 3000
+    });
+
+    browserInteractionTime.startTimer();
+
+    return () => {
+      browserInteractionTime.stopTimer();
+      callback(browserInteractionTime.getTimeInMilliseconds());
+    };
+  }, [callback]);
 };
